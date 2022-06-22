@@ -1,0 +1,30 @@
+{% extends "register/base.html" %}
+{% block title%}ユーザー情報{% endblock %}
+
+{% block header %}
+<div class="container-fluid">
+    <h3>ユーザー情報</h3>
+</div>
+{% endblock %}
+
+{% block content %}
+<br>
+<div class="container-fluid">
+<table class="table">
+    <tbody>
+        <tr>
+            <th>ユーザー名</th>
+            <td>{{ user.email }}</td>
+        </tr>
+        <tr>
+            <th>姓</th>
+            <td>{{ user.last_name }}</td>
+        </tr>
+        <tr>
+            <th>名</th>
+            <td>{{ user.first_name }}</td>
+        </tr>
+    </tbody>
+</table>
+</div>
+{% endblock %}

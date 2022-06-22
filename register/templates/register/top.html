@@ -1,0 +1,21 @@
+{% extends "register/base.html" %}
+{% block title%}ログアウト{% endblock %}
+
+{% block header %}
+<div class="container-fluid">
+  <h3>ログアウト完了</h3>
+</div>
+{% endblock %}
+
+{% block content %}
+<br>
+<div class="container-fluid">
+    <p><h3>ログアウトしました。</h3></p>
+</div>
+    <script>
+    setTimeout(function(){
+        window.location.href = '{% url 'register:login' %}';
+      }, 3*1000);
+    </script>
+
+{% endblock %}

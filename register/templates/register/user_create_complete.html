@@ -1,0 +1,19 @@
+{% extends "register/base.html" %}
+{% block title%}サインアップ{% endblock %}
+
+{% block header %}
+<div class="container-fluid">
+    <h3>サインアップ</h3>
+</div>
+{% endblock %}
+
+{% block content %}
+<br>
+<div class="container-fluid">
+<p>
+    本登録が完了しました。<br>
+    登録されたメールアドレスとパスワードでログインしてください。<br>
+    <a class="btn btn-primary btn-lg" href="{% url 'register:login' %}">ログイン</a>
+</p>
+</diV>
+{% endblock %}
