@@ -1,0 +1,81 @@
+
+{% extends 'borrower/base.html' %}
+{% block head %}
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+{% endblock %}
+{% block content %}
+
+        <!-- Page Content-->
+        <section class="pt-4">
+            <div class="container">
+              <form method="post" action="{% url 'book_rental_app:permission_borrowing' %}">
+                  {% csrf_token %}
+                  <input type="submit" name="button" value="返却する">
+                  <table class="table table-bordered border-primary table-hover">
+                    <thead class="table-primary">
+                      <tr>
+                        <th scope="col">返却</th>
+                        <th scope="col">管理ID</th>
+                        <th scope="col">大カテゴリー</th>
+                        <th scope="col">小カテゴリー</th>
+                        <th scope="col">カテゴリー内ID</th>
+                        <th scope="col">タイトル</th>
+                        <th scope="col" width="3%">在庫label</th>
+                        {% comment %} <th scope="col" width="6%">操作</td> {% endcomment %}
+                      </tr>
+                    </thead>
+                    {% for book in books %}
+                    <tbody>
+                      <tr id="{{ book.id }}">
+                          {% if not book.is_rental %}
+                          <td><input type="checkbox" name="borrowing_books" value="{{ book.id }}"></td>
+                          {% else %}
+                          <td></td>
+                          {% endif %}
+                          <td>{{ book.manage_id }}</td>
+                          <td>{{ book.category.large_category }}</td>
+                          <td>{{ book.category.name }}</td>
+                          <td>{{ book.id_in_category }}</td>
+                          <td>{{ book.title }}</td>
+                          {% if book.is_rental %}
+                          <td>&#10060;</td>
+                          {% else %}
+                          <td>✅</td>
+                          {% endif %}
+                      </tr>
+                    </tbody>      
+                    {% endfor %}
+                  </table>      
+                  
+              </form>
+            </div>
+          </section>
+  
+  
+          <script>
+              $(document).ready(function() {
+                  $('tr').click(function(event) {
+                  // チェックボックスがチェックされたら無視
+                      if (event.target.type !== 'checkbox') {
+                          $(':checkbox', this).trigger('click');
+                      }
+                  });
+              });
+              $("input[type=checkbox]").click(function(){
+                  var $count = $("input[type=checkbox]:checked").length;
+                  var $not = $('input[type=checkbox]').not(':checked')
+               
+                      //チェックが3つ付いたら、チェックされてないチェックボックスにdisabledを加える
+                  if($count >= 5-{{ total_borrowing }}) {
+                      $not.attr("disabled",true);
+                  }else{
+                      //3つ以下ならdisabledを外す
+                      $not.attr("disabled",false);
+                  }
+              });
+              function csrfSafeMethod(method) {
+                  // these HTTP methods do not require CSRF protection
+                  return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+              }
+              </script>
+  {% endblock %}

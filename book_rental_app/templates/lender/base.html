@@ -33,11 +33,11 @@
                     <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                         <li class="nav-item"><a class="nav-link active" aria-current="page" href="#!">Home</a></li>
                         {% if user.is_authenticated %}
-                        {% if last_name and first_name %}
+                        {% if user.last_name and user.first_name %}
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" data-toggle="dropdown"
                             href="#" role="button" aria-haspopup="true" aria-expanded="false">
-                            {{ last_name }}{{ first_name }}</a>
+                            {{ user.last_name }}{{ user.first_name }}</a>
                             <div class="dropdown-menu left">
                             <a class="dropdown-item" href="{% url 'register:user_detail' user.pk %}">ユーザー情報</a>
                             <a class="dropdown-item" href="{% url 'register:user_update' user.pk %}">ユーザー情報更新</a>

@@ -60,6 +60,11 @@ class User(AbstractBaseUser, PermissionsMixin):
     )
     date_joined = models.DateTimeField(_('date joined'), default=timezone.now)
 
+    """
+    5冊目での貸出上限フラグ追加
+    """
+    rental_limit = models.BooleanField(default=False, help_text='5冊以上借りたらTrue', verbose_name='貸出上限フラグ')
+
     objects = CustomUserManager()
 
     EMAIL_FIELD = 'email'
@@ -87,3 +92,6 @@ class User(AbstractBaseUser, PermissionsMixin):
     @property
     def username(self):
         return self.email
+
+    def __str__(self):
+        return self.last_name + self.first_name + ':' + self.email
