@@ -1,0 +1,35 @@
+
+{% extends 'lender/base.html' %}
+{% block content %}
+
+        <!-- Page Content-->
+        <section class="pt-4">
+          <div class="container">
+            <form method="post" action="{% url 'book_rental_app:add_book_confirm' small_category.pk %}">
+              {% csrf_token %}
+              <p>
+                大カテゴリー：{{ large_category }}　
+                <button type="button" onclick="location.href='{% url 'book_rental_app:select_large_category' %}'">大カテゴリーに戻る</button>  
+              </p>
+              <p>
+                小カテゴリー：{{ small_category }}　
+                <button type="button" onclick="location.href='{% url 'book_rental_app:select_small_category' small_category.pk %}'">小カテゴリーに戻る</button>  
+              </p>
+              <p>
+                管理ID：
+              <input type="text" name="manage_id" required>
+              </p>
+              <p>
+                カテゴリー内ID：
+              <input type="text" name="id_in_category" required>
+              </p>
+              <p>
+                タイトル：
+              <input type="text" name="title" required>
+              </p>
+              <button>追加</button>
+            </form>
+          </div>
+        </section>
+
+{% endblock %}

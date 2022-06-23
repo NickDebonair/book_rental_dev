@@ -32,9 +32,10 @@ class Books(models.Model):
     id_in_category = models.IntegerField(verbose_name='カテゴリーにおけるID', blank=True, null=True)
     title = models.CharField(max_length=255, verbose_name='Book Title')
     category = models.ForeignKey(SmallCategory, on_delete=models.SET_NULL, blank=True, null=True, verbose_name='Small Categroy name')
-    borrower_user = models.ForeignKey(User, on_delete=models.SET_NULL, blank=True, null=True, related_name='book_borrower', verbose_name='本を借りた人')
-    lender_user = models.ForeignKey(User, on_delete=models.SET_NULL, blank=True, null=True, related_name='book_lender', verbose_name='貸出許可を出した人')
-    is_rental = models.BooleanField(default=False, help_text='借りられたらTrue')
+    borrower_user = models.ForeignKey(User, on_delete=models.SET_NULL, blank=True, null=True, related_name='borrowing_books', verbose_name='本を借りた人')
+    lender_user = models.ForeignKey(User, on_delete=models.SET_NULL, blank=True, null=True, related_name='lending_books', verbose_name='貸出許可を出した人')
+    is_rental = models.BooleanField(default=False, help_text='借りられたらTrue', verbose_name='貸出中ラベル')
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name='書籍追加された日時')
 
     def __str__(self):
         return self.title
@@ -52,7 +53,7 @@ class LendingStatus(models.Model):
     book = models.ForeignKey(Books, on_delete=models.PROTECT, verbose_name='貸し出された書籍')
     borrower_user = models.ForeignKey(User, on_delete=models.PROTECT, related_name='status_borrower', verbose_name='本を借りた人')
     lender_user = models.ForeignKey(User, on_delete=models.PROTECT, related_name='status_lender', verbose_name='貸出許可を出した人')
-    is_returned = models.BooleanField(default=False)
+    is_returned = models.BooleanField(default=False, help_text='本が返されたらTrue', verbose_name='返されたかどうかのラベル')
 
     def __str__(self):
         return self.checkout_date + ' / ' + self.book.title + ' / ' + self.borrower_user.last_name + self.borrower_user.first_name 

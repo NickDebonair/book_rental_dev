@@ -1,0 +1,18 @@
+
+{% extends 'lender/base.html' %}
+{% block content %}
+
+<!-- Page Content-->
+<section class="pt-4">
+  <div class="container">
+    <button type="button" onclick="location.href='{% url 'book_rental_app:list_large_category' %}'">一覧に戻る</button>
+    <form method="post" action="{% url 'book_rental_app:list_large_category' %}">
+        {% csrf_token %}
+    <input type="text" name="name" required>
+    
+    <button>作成</button>
+    </form>
+  </div>
+</section>
+
+{% endblock %}

@@ -1,0 +1,21 @@
+
+{% extends 'lender/base.html' %}
+{% block content %}
+
+<!-- Page Content-->
+<section class="pt-4">
+  <div class="container">
+    {% comment %} <button type="button" onclick="location.href='{% url 'book_rental_app:create_large_category' %}'">
+        大カテゴリー追加
+    </button> {% endcomment %}
+    <div>
+      <br>
+    </div>
+    <h3>大カテゴリーを選択</h3>
+    {% for large_category in large_categories %}
+        <p><a href="{% url 'book_rental_app:select_small_category' large_category.pk %}">{{ large_category.name }}</a></p>
+    {% endfor %}
+  </div>
+</section>
+
+{% endblock %}

@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>書籍貸出</title>
+  </head>
+  <body>
+    <h1>下記の書籍を貸し出しました。</h1>
+    <p>許可者：{{ lender_user }}</p>
+    {% for book in books %}
+    <p>・{{ book.title }}</p>
+    {% endfor %}
+
+    <script>
+    setTimeout(function(){
+        window.location.href = '{% url 'book_rental_app:index_borrower' %}';
+      }, 4*1000);
+    </script>
+  </body>
+</html>

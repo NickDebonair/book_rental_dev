@@ -1,4 +1,6 @@
 from django import forms
+
+from register.models import User
 from .models import Books, LargeCategory, SmallCategory
 
 class LargeCategoryForm(forms.ModelForm):
@@ -33,3 +35,8 @@ class BooksForm(forms.ModelForm):
             'lender_user': '',
             'is_rental': '',
         }
+
+
+
+class LenderForm(forms.Form):
+    lender = forms.ModelChoiceField(User.objects.filter(is_superuser=True),  label='', empty_label='選択してください', to_field_name='pk', required=True)
