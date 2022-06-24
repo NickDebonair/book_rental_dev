@@ -1,7 +1,10 @@
 
-{% extends 'lender/base.html' %}
+{% extends 'borrower/base.html' %}
 {% block head %}
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.8.1/jquery.validate.min.js"></script>
+
 {% endblock %}
 {% block content %}
 
@@ -17,15 +20,30 @@
                 {% endfor %}
                 {{ form }}
             <input type="button" onClick="myEnter()" value="借りる">
+            {% comment %} <input type="submit" value="借りる"> {% endcomment %}
             </form>
           </div>
         </section>
 
+      <script src="/js/jquery.min.js"></script>
+      <script src="/js/jquery.validate.min.js"></script>
 
       <script>
+        $('form').validate({
+            rules: {
+                lender: { required: true }
+            }
+        });
+
         function myEnter(){
           Input=window.prompt("パスワードを入力してください","");
           if ( Input == "hoge" ) {
+            
+          $('form').validate({
+              rules: {
+                  lender: { required: true }
+              }
+          });
           $('form').attr('action', {% url 'book_rental_app:confirm_borrowing' %});
           $('form').submit();
           } else { alert( "パスワードが違います!" );

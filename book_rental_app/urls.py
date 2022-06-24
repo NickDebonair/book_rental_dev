@@ -19,7 +19,12 @@ urlpatterns = [
     path('add_book_confirm/<int:pk>/', views.add_book_confirm, name='add_book_confirm'),
 
     path('list_books', views.list_books, name='list_books'),
-    
+
+    path('index_status/', views.index_status, name='index_status'),
+    path('list_status/', views.list_status, name='list_status'),
+    path('list_status_user/', views.list_status_user, name='list_status_user'),
+    path('detail_status_user/<int:pk>/', views.detail_status_user, name='detail_status_user'),
+    path('history_status_user/<int:pk>/', views.history_status_user, name='history_status_user'),
 
     # 利用者
     path('index_borrower/', views.index_borrower, name='index_borrower'),
@@ -27,4 +32,11 @@ urlpatterns = [
     path('list_borrowing/', views.list_borrowing, name='list_borrowing'),
     path('permission_borrowing/', views.permission_borrowing, name='permission_borrowing'),
     path('confirm_borrowing/', views.confirm_borrowing, name='confirm_borrowing'),
+
+    path('list_borrowed/', views.list_borrowed, name='list_borrowed'),
+    path('list_returning/', views.list_returning, name='list_returning'),
+    path('confirm_returning/', views.confirm_returning, name='confirm_returning'),
+
+    path('rental_history/', views.rental_history, name='rental_history'),
+
 ]

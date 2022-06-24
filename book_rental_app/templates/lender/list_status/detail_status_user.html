@@ -1,20 +1,20 @@
-{% extends 'borrower/base.html' %}
+{% extends 'lender/base.html' %}
 {% load custom_tag %}
-{% block head %}
-<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-{% endblock %}
-{% block content %}
 
+{% block head %}
+{% endblock %}
+{% block title%}{% endblock %}
+{% block header %}
+{% endblock %}
+
+{% block content %}
         <!-- Page Content-->
         <section class="pt-4">
             <div class="container">
-              <form method="post" action="{% url 'book_rental_app:list_returning' %}">
-                  {% csrf_token %}
-                  <input type="submit" name="button" value="返却する">
+                <h2>{{ status_user.last_name }}{{ status_user.first_name }}さんへの貸出状況</h2>
                   <table class="table table-bordered border-primary table-hover">
                     <thead class="table-primary">
                       <tr>
-                        <th scope="col">返却</th>
                         <th scope="col">管理ID</th>
                         <th scope="col">大カテゴリー</th>
                         <th scope="col">小カテゴリー</th>
@@ -32,8 +32,7 @@
                     {% for status in lending_status %}
                     {% if not status.is_returned %}
                     <tbody>
-                      <tr id="{{ status.id }}">
-                          <td><input type="checkbox" name="returning_status_id" value="{{ status.id }}"></td>
+                      <tr>
                           <td>{{ status.book.manage_id }}</td>
                           <td>{{ status.book.category.large_category }}</td>
                           <td>{{ status.book.category }}</td>
@@ -71,24 +70,7 @@
                     <h3>あなたが借りている本はありません。</h3>
                     {% endif %}
                   </table>      
-                  
-              </form>
             </div>
-          </section>
-  
-  
-          <script>
-              $(document).ready(function() {
-                  $('tr').click(function(event) {
-                  // チェックボックスがチェックされたら無視
-                      if (event.target.type !== 'checkbox') {
-                          $(':checkbox', this).trigger('click');
-                      }
-                  });
-              });
-              function csrfSafeMethod(method) {
-                  // these HTTP methods do not require CSRF protection
-                  return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
-              }
-              </script>
-  {% endblock %}
+        </section>
+
+{% endblock %}

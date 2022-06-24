@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>書籍貸出</title>
+  </head>
+  <body>
+    <h1>下記の書籍を返却しました。</h1>
+    <h4>許可者：{{ lender_user }}</h4>
+    {% for status in returned_status_list %}
+    <p>管理用ID：{{ status.book.manage_id }}</p>
+    <p>大カテゴリー：{{ status.book.category.large_category }}　/　小カテゴリー：{{ status.book.category }}</p>
+    <p>書名：{{ status.book.title }}</p>
+    <p>許可者：{{ status.lender_user }}</p>
+    <p>返却期限：{{ status.get_due_date }}</p>
+    <p>返却日：{{ status.returned_date }}</p>
+    <hr size="10">
+    {% endfor %}
+
+    <script>
+    setTimeout(function(){
+        window.location.href = '{% url 'book_rental_app:list_borrowed' %}';
+      }, 4*1000);
+    </script>
+  </body>
+</html>

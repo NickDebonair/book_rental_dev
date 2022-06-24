@@ -1,0 +1,36 @@
+
+{% extends 'borrower/base.html' %}
+{% block head %}
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+{% endblock %}
+{% block content %}
+
+        <!-- Page Content-->
+        <section class="pt-4">
+          <div class="container">
+            <form method="post" action="{% url 'book_rental_app:confirm_returning' %}">
+                {% csrf_token %}
+                <h3>下記の書籍を返却しますか？</h3>
+                {% for status in returning_status_list %}
+                <p>・{{ status.book.title }}</p>
+                <input type="hidden" value="{{ status.pk }}" name="returning_status_id">
+                {% endfor %}
+                {% comment %} {{ form }} {% endcomment %}
+            {% comment %} <input type="button" onClick="myEnter()" value="返却する"> {% endcomment %}
+            <input type="submit" value="返却する">
+            </form>
+          </div>
+        </section>
+
+
+      <script>
+        function myEnter(){
+          Input=window.prompt("パスワードを入力してください","");
+          if ( Input == "hoge" ) {
+          $('form').attr('action', {% url 'book_rental_app:confirm_borrowing' %});
+          $('form').submit();
+          } else { alert( "パスワードが違います!" );
+        }
+        }
+      </script>
+{% endblock %}

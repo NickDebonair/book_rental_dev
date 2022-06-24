@@ -1,0 +1,70 @@
+{% extends 'lender/base.html' %}
+
+{% block head %}
+
+<style type="text/css">
+.menu-button-left {
+  display: flex;
+  width: 500px;
+  height: 500px;
+  align-items: center;
+  justify-content: center;
+  margin-left: 200px;
+}
+.menu-button-right {
+  display: flex;
+  width: 500px;
+  height: 500px;
+  align-items: center;
+  justify-content: center;
+  margin-left: -300px;
+}
+.container {
+
+}
+.row {
+}
+</style>
+
+{% endblock %}
+{% block title%}{% endblock %}
+{% block header %}
+{% endblock %}
+
+{% block content %}
+        <!-- Page Content-->
+        <section class="pt-4">
+            <div class="container">
+              <div class="row">
+              <h2 >貸出管理ページ</h2>
+                <div class="col">
+                    <div class="menu-button-left">
+                    <div class="col-lg-6 col-xxl-4 mb-5">
+                        <div class="card bg-light border-0 h-100">
+                            <div class="card-body text-center p-4 p-lg-9 pt-0 pt-lg-0">
+                                <a class="btn btn-primary btn-lg feature  bg-gradient text-white rounded-3 mb-4 mt-n4" href="{% url 'book_rental_app:list_status' %}"><i class="bi bi-list-stars"></i></a>
+                                <h2 class="fs-4 fw-bold">一覧</h2>
+                                <p class="mb-0"></p>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="menu-button-right">
+                    <div class="col-lg-6 col-xxl-4 mb-5">
+                        <div class="card bg-light border-0 h-100">
+                            <div class="card-body text-center p-4 p-lg-9 pt-0 pt-lg-0">
+                                <a class="btn btn-primary btn-lg feature  bg-gradient text-white rounded-3 mb-4 mt-n4" href="{% url 'book_rental_app:list_status_user' %}"><i class="bi bi-person-lines-fill"></i></a>
+                                <h2 class="fs-4 fw-bold">社員別</h2>
+                                <p class="mb-0"></p>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+              </div>
+            </div>
+        </section>
+
+{% endblock %}

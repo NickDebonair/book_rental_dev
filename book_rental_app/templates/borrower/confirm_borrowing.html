@@ -8,8 +8,8 @@
   </head>
   <body>
     <h1>下記の書籍を貸し出しました。</h1>
-    <p>許可者：{{ lender_user }}</p>
-    {% for book in books %}
+    <h4>許可者：{{ lender_user }}</h4>
+    {% for book in books_list %}
     <p>・{{ book.title }}</p>
     {% endfor %}
 

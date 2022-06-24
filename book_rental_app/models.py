@@ -1,5 +1,8 @@
 from django.db import models
 from register.models import User
+from datetime import datetime, date, timedelta
+from dateutil.relativedelta import relativedelta
+import datetime as dt
 # Create your models here.
 
 class LargeCategory(models.Model):
@@ -48,16 +51,41 @@ class Books(models.Model):
 
 class LendingStatus(models.Model):
     checkout_date = models.DateTimeField(auto_now_add=True, verbose_name='貸し出し日')
-    due_date = models.DateField(verbose_name='返却予定日')
-    return_date = models.DateTimeField(auto_now=True, verbose_name='返却日')
+    # due_date = models.DateField(verbose_name='返却期限')
+    returned_date = models.DateTimeField(auto_now=True, verbose_name='返却日')
     book = models.ForeignKey(Books, on_delete=models.PROTECT, verbose_name='貸し出された書籍')
     borrower_user = models.ForeignKey(User, on_delete=models.PROTECT, related_name='status_borrower', verbose_name='本を借りた人')
     lender_user = models.ForeignKey(User, on_delete=models.PROTECT, related_name='status_lender', verbose_name='貸出許可を出した人')
+    # grace_period = models.IntegerField(verbose_name='返却日までの日数', null=True, blank=True)
+    # is_over = models.BooleanField(default=False, help_text='返却期限を過ぎたらTrue', verbose_name='返却期限を過ぎたかどうか')
     is_returned = models.BooleanField(default=False, help_text='本が返されたらTrue', verbose_name='返されたかどうかのラベル')
 
     def __str__(self):
-        return self.checkout_date + ' / ' + self.book.title + ' / ' + self.borrower_user.last_name + self.borrower_user.first_name 
+        return self.checkout_date.strftime("%Y/%m/%d") + ' / ' + self.book.title + ' / ' + self.borrower_user.last_name + self.borrower_user.first_name 
     
+    def get_due_date(self):
+        due_date = self.checkout_date + relativedelta(months=1)
+        return due_date
+        
+    def get_grace_period(self):
+        grace_period = self.get_due_date().date()-dt.date.today()
+        return grace_period.days
+    
+    def get_is_over(self):
+        today = dt.date.today()
+        if today > self.get_due_date().date():
+            return True
+        else:
+            return False
+
+    # def due_date_admin(self):
+    #     due_date = self.checkout_date + relativedelta(months=1)
+    #     return due_date.strftime("%Y/%m/%d")
+
+    # def grace_period_admin(self):
+    #     pass
+
+
     class Meta:
         db_table = 'LendingStatus'
         verbose_name = '貸出状況'

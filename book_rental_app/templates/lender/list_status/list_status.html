@@ -1,0 +1,79 @@
+{% extends 'lender/base.html' %}
+{% load custom_tag %}
+
+{% block head %}
+{% endblock %}
+{% block title%}{% endblock %}
+{% block header %}
+{% endblock %}
+
+{% block content %}
+        <!-- Page Content-->
+        <section class="pt-4">
+            <div class="container">
+              
+                <table class="table table-bordered border-primary table-hover">
+                  <thead class="table-primary">
+                    <tr>
+                      <th scope="col">許可者</th>
+                      <th scope="col">利用者</th>
+                      <th scope="col">借りた日時</th>
+                      <th scope="col">返却期限</th>
+                      <th scope="col" width="3%">label</th>
+                      <th scope="col">残り日数</th>
+                      <th scope="col">管理ID</th>
+                      <th scope="col">大カテゴリー</th>
+                      <th scope="col">小カテゴリー</th>
+                      <th scope="col">カテゴリー内ID</th>
+                      <th scope="col">タイトル</th>
+                      {% comment %} <th scope="col" width="6%">操作</td> {% endcomment %}
+                    </tr>
+                  </thead>
+                  {% if lending_status %}
+                  {% for status in lending_status %}
+                  {% if not status.is_returned %}
+                  <tbody>
+                    <tr>
+                        <td>{{ status.lender_user }}</td>
+                        <td>{{ status.lender_user }}</td>
+                        <td>{{ status.checkout_date }}</td>
+                        <td>{{ status.get_due_date | date:"Y年m月j日" }}</td>
+
+                        {% if not status.get_is_over %}
+                        {% if status.get_grace_period >= 28 %}
+                        <td>🟢</td>
+                        {% elif status.get_grace_period >= 14 %}
+                        <td>🟡</td>
+                        {% elif status.get_grace_period >= 3 %}
+                        <td>🟠</td>
+                        {% elif status.get_grace_period == 0 %}
+                        <td>🔴</td>
+                        {% endif %}
+                        {% else %}
+                        <td>❌</td>
+                        {% endif %}
+
+                        {% if status.get_grace_period >= 0 %}
+                        <td>{{ status.get_grace_period }}日間</td>
+                        {% else %}
+                        <td>延滞{% multiplication -1 status.get_grace_period %}日間</td>
+                        {% endif %}
+                        <td>{{ status.book.manage_id }}</td>
+                        <td>{{ status.book.category.large_category }}</td>
+                        <td>{{ status.book.category }}</td>
+                        <td>{{ status.book.id_in_category }}</td>
+                        <td>{{ status.book.title }}</td>
+
+                    </tr>
+                  </tbody>
+                  {% endif %}
+                  {% endfor %}
+                  {% else %}
+                  <h3>書籍を借りている人は居ません。</h3>
+                  {% endif %}
+                </table>      
+                  
+            </div>
+        </section>
+
+{% endblock %}

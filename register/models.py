@@ -64,6 +64,10 @@ class User(AbstractBaseUser, PermissionsMixin):
     5冊目での貸出上限フラグ追加
     """
     rental_limit = models.BooleanField(default=False, help_text='5冊以上借りたらTrue', verbose_name='貸出上限フラグ')
+    """
+    借りているかどうかでフラグ追加
+    """
+    is_borrowing = models.BooleanField(default=False, help_text='本を借りていればTrue', verbose_name='本を借りている人/is_borrowing')
 
     objects = CustomUserManager()
 

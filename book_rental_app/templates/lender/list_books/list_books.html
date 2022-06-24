@@ -14,6 +14,7 @@
                   <th scope="col">大カテゴリー</th>
                   <th scope="col">小カテゴリー</th>
                   <th scope="col">タイトル</th>
+                  <th scope="col">作成日</th>
                   <th scope="col" width="3%">在庫label</th>
                   {% comment %} <th scope="col" width="6%">操作</td> {% endcomment %}
                 </tr>
@@ -26,6 +27,7 @@
                   <td>{{ book.category.large_category }}</td>
                   <td>{{ book.category.name }}</td>
                   <td>{{ book.title }}</td>
+                  <td>{{ book.created_at | date:"Y年m月j日" }}</td>
                   {% if book.is_rental %}
                   <td>&#10060;</td>
                   {% else %}

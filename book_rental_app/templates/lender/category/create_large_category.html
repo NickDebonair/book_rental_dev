@@ -8,7 +8,7 @@
     <button type="button" onclick="location.href='{% url 'book_rental_app:list_large_category' %}'">一覧に戻る</button>
     <form method="post" action="{% url 'book_rental_app:list_large_category' %}">
         {% csrf_token %}
-    <input type="text" name="name" required>
+    <input type="text" name="name" required autofocus>
     
     <button>作成</button>
     </form>

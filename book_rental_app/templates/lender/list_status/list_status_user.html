@@ -1,0 +1,21 @@
+{% extends 'lender/base.html' %}
+
+{% block head %}
+{% endblock %}
+{% block title%}{% endblock %}
+{% block header %}
+{% endblock %}
+
+{% block content %}
+        <!-- Page Content-->
+        <section class="pt-4">
+            <div class="container">
+              <h2>書籍貸出中の利用者一覧</h2>
+              {% for borrowing_user in borrowing_users %}
+              <a href="{% url 'book_rental_app:detail_status_user' borrowing_user.pk %}">{{ borrowing_user }}</a>
+              <button type="button" onclick="location.href='{% url 'book_rental_app:history_status_user' borrowing_user.pk %}'">履歴</button>
+              {% endfor %}
+            </div>
+        </section>
+
+{% endblock %}
