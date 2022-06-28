@@ -40,6 +40,7 @@ class Books(models.Model):
     is_rental = models.BooleanField(default=False, help_text='借りられたらTrue', verbose_name='貸出中ラベル')
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='書籍追加された日時')
 
+
     def __str__(self):
         return self.title
     
