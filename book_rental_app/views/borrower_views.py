@@ -2,10 +2,10 @@ from django.shortcuts import render, redirect
 from book_rental_app.forms import LenderForm
 from register.models import User
 from book_rental_app.models import Books, LendingStatus
-
 from datetime import datetime, date, timedelta
 from dateutil.relativedelta import relativedelta
 import datetime as dt
+from django.contrib import messages
 # Create your views here.
 
 def index_borrower(request):
@@ -35,6 +35,12 @@ def permission_borrowing(request):
     if request.method == 'POST':
         #次のページ"confirm_borrowing"に反映させるための構え
         borrowing_books = request.POST.getlist('borrowing_books')
+        """
+        本を何も選択しなければ
+        """
+        if len(borrowing_books) == 0:
+            messages.warning(request, '本を選んでください。')
+            return redirect('book_rental_app:list_borrowing')
         print()
         print('borrowing_books:', end='')
         print(borrowing_books)
@@ -54,6 +60,8 @@ def permission_borrowing(request):
             return render(request, 'borrower/permission_borrowing.html', context)
         except:
             return redirect('book_rental_app:list_borrowing')
+        
+        
 
 def confirm_borrowing(request):
     if request.method == 'POST':
@@ -68,14 +76,30 @@ def confirm_borrowing(request):
             books_list.append(Books.objects.get(id=i))
         print('books:', end='')
         print(books_list)
-        
-        lender_pk = request.POST.get('lender')
-        print('lender_pk:', end='')
-        print(lender_pk)
-        lender_user = User.objects.get(id=lender_pk)
-        print('lender_user:', end='')
-        print(lender_user)
+
+
+        """
+        担当者を何も選択しなければ
+        """
+        if request.POST.get('lender') == "":
+            form = LenderForm()
+            context = {
+                'books': books_list,
+                'form': form,
+            }
+            messages.error(request, '担当者を選択してください')
+            # return redirect('book_rental_app:list_borrowing')
+            return render(request, 'borrower/permission_borrowing.html', context)
+        else:
+            lender_pk = request.POST.get('lender')
+            print('lender_pk:', end='')
+            print(lender_pk)
+            lender_user = User.objects.get(id=lender_pk)
+            print('lender_user:', end='')
+            print(lender_user)
        
+
+
         # ここからデータベースへの反映処理
         borrower_user = request.user
         # Booksへの反映
@@ -92,8 +116,9 @@ def confirm_borrowing(request):
         user_books = Books.objects.filter(borrower_user=borrower_user)
         if len(user_books) == 5:
             borrower_user.rental_limit = True
-        borrower_user.is_borrowing = True
-        borrower_user.save()
+        if borrower_user.is_borrowing == False:
+            borrower_user.is_borrowing = True
+            borrower_user.save()
 
 
         context = {

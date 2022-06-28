@@ -19,10 +19,12 @@ def list_status(request):
     return render(request, 'lender/list_status/list_status.html', context)
 
 def list_status_user(request):
-    borrowing_users = User.objects.filter(is_borrowing=True)
+    all_borrower_users = User.objects.filter(is_superuser=False)
     context = {
-        'borrowing_users': borrowing_users,
+        'all_borrower_users': all_borrower_users,
     }
+    print(all_borrower_users)
+    print('hello logs')
     return render(request, 'lender/list_status/list_status_user.html', context)
 
 def detail_status_user(request, pk):
