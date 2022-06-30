@@ -19,15 +19,17 @@ def list_status(request):
     return render(request, 'lender/list_status/list_status.html', context)
 
 def list_status_user(request):
-    borrowing_users = User.objects.filter(is_borrowing=True)
+    all_borrower_users = User.objects.filter(is_superuser=False)
     context = {
-        'borrowing_users': borrowing_users,
+        'all_borrower_users': all_borrower_users,
     }
+    print(all_borrower_users)
+    print('hello logs')
     return render(request, 'lender/list_status/list_status_user.html', context)
 
 def detail_status_user(request, pk):
     status_user = User.objects.get(id=pk)
-    lending_status = LendingStatus.objects.filter(borrower_user=status_user, is_returned=False)
+    lending_status = LendingStatus.objects.filter(borrower_user=status_user, is_returned=False).order_by('checkout_date')
     context = {
         'status_user': status_user,
         'lending_status': lending_status,
@@ -36,7 +38,7 @@ def detail_status_user(request, pk):
 
 def history_status_user(request, pk):
     status_user = User.objects.get(id=pk)
-    returned_status = LendingStatus.objects.filter(borrower_user=status_user, is_returned=True)
+    returned_status = LendingStatus.objects.filter(borrower_user=status_user, is_returned=True).order_by('-checkout_date')
     context = {
         'status_user': status_user,
         'returned_status': returned_status,
