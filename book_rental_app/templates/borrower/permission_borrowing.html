@@ -11,6 +11,12 @@
         <!-- Page Content-->
         <section class="pt-4">
           <div class="container">
+            {% if messages %}
+            {% for message in messages %}
+                <li sytle="color: red;">{{ message.tags }}:{{ message }}</li>
+                {% endfor %}
+            {% endif %}
+
             <form method="post">
                 {% csrf_token %}
                 <h3>借りたい本</h3>
@@ -38,12 +44,12 @@
         function myEnter(){
           Input=window.prompt("パスワードを入力してください","");
           if ( Input == "hoge" ) {
-            
+{% comment %}             
           $('form').validate({
               rules: {
                   lender: { required: true }
               }
-          });
+          }); {% endcomment %}
           $('form').attr('action', {% url 'book_rental_app:confirm_borrowing' %});
           $('form').submit();
           } else { alert( "パスワードが違います!" );

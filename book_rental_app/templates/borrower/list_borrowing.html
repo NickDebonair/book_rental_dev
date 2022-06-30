@@ -9,6 +9,11 @@
         <!-- Page Content-->
         <section class="pt-4">
           <div class="container">
+            {% if messages %}
+            {% for message in messages %}
+                <li sytle="color: red;">{{ message.tags }}:{{ message }}</li>
+                {% endfor %}
+            {% endif %}
             <form method="post" action="{% url 'book_rental_app:permission_borrowing' %}">
                 {% csrf_token %}
                 <input type="submit" name="button" value="借りる">
